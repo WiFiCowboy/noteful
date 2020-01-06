@@ -1,10 +1,10 @@
 import React from 'react';
 
 function Note(props) {
-  
+  const note = props.notes.find(note => note.id === props.match.params.noteID)
   return(
     <div>
-      <h1>Note</h1>
+      {note ? note.name:""}
       
     </div>
   )

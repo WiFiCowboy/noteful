@@ -14,23 +14,6 @@ export default class App extends Component {
     this.state = STORE;
   }
 
-handleFolderClick(folderId) {
-
-  console.log("this is folder: ",folderId);
-  const noteId = STORE.notes.map( items => items.folderId)
-  for(let i = 0; i < noteId.length; i++){
-    if(noteId[i] === folderId){
-      console.log("this is note: ",noteId[i]);
-      // return an array of componenet looping therough matching notes 
-      return (
-        <Note noteID={noteId[i]} />
-      );
-    }
-    
-  }
-
-}
-
   render() {
     console.log(this.state);
     return (
@@ -42,10 +25,16 @@ handleFolderClick(folderId) {
               <Route
                 exact
                 path="/"
-                render={props => <MainSidebar handleFolderClick={this.handleFolderClick} folders={this.state.folders} />}
+                render={props => <MainSidebar folders={this.state.folders} />}
               />
-              {/* <Route path="/Folder" component={MainSidebar} />
-              <Route path="/Note" component={MainSidebar} /> */}
+              <Route
+                path="/Folder"
+                render={props => <MainSidebar folders={this.state.folders} />}
+              />
+              <Route
+                path="/Note"
+                render={props => <MainSidebar folders={this.state.folders} />}
+              />
             </Switch>
           </aside>
           <main>
@@ -56,8 +45,17 @@ handleFolderClick(folderId) {
                 render={props => <Menu notes={this.state.notes} />}
               />
               {/* /folder/folderID using links in sidebar */}
-              <Route path="/Folder" component={Folder} />
-              <Route path="/Note" component={Note} />
+              <Route
+                path="/folder/:folderID"
+                render={props => (
+                  <Folder {...props} folders={this.state.folders}
+                  notes={this.state.notes} />
+                )}
+              />
+              <Route
+                path="/note/:noteID"
+                render={props => <Note {...props} notes={this.state.notes} />}
+              />
               <Route component={NotFound} />
             </Switch>
           </main>
