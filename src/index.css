@@ -49,6 +49,10 @@ main {
   text-align: center;
 }
 
+.active {
+  color: limegreen;
+}
+
 li {
   list-style: none;
   text-align: center;
