@@ -8,9 +8,8 @@ function MainSidebar(props) {
       <h2>
         {props.folders.map(folder => (
           <li key={folder.id}>
-            <NavLink
-            to={"/folder/" + folder.id}>{folder.name}
-            </NavLink>
+            {/* <h2>{folderCheck}</h2> */}
+            <NavLink to={"/folder/" + folder.id}>{folder.name}</NavLink>
           </li>
         ))}
       </h2>

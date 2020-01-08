@@ -1,15 +1,16 @@
 import React from "react";
 import "./index.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Menu(props) {
   return (
     <div className="mainMenuContainer">
       {props.notes.map(note => (
         <div className="menu" key={note.id}>
-          <Link to="" >
+          <NavLink 
+          to={"/note/" + note.id} >
             <h2>{note.name}</h2>
-          </Link>
+          </NavLink>
           <h3>Date Modified on {note.modified}</h3>
           <button className="deleteButton">Delete Note</button>
         </div>

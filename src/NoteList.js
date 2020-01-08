@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function NoteList(props) {
   const folderInfo = props.folderIdNotes;
@@ -9,9 +9,10 @@ function NoteList(props) {
       return (
         <div className="mainMenuContainer" key={note.id}>
           <div className="menu">
-            <Link to="">
-              <h2>{note.name}</h2>
-            </Link>
+          <NavLink 
+          to={"/Note/" + note.id} >
+            <h2>{note.name}</h2>
+          </NavLink>
             <h3>Date Modified on {note.modified}</h3>
             <button className="deleteButton">Delete Note</button>
           </div>

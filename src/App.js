@@ -7,6 +7,7 @@ import Nav from "./Nav";
 import NotFound from "./NotFound";
 import STORE from "./store";
 import MainSidebar from "./MainSidebar";
+import NoteSidebar from "./NoteSidebar";
 
 export default class App extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class App extends Component {
               />
               <Route
                 path="/Note"
-                render={props => <MainSidebar folders={this.state.folders} />}
+                render={props => <NoteSidebar folders={this.state.folders} notes={this.state.notes}/>}
               />
             </Switch>
           </aside>
