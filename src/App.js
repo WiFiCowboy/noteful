@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Link, Switch } from "react-router-dom";
+import { Route,  Switch } from "react-router-dom";
 import Folder from "./Folder";
 import Menu from "./Menu";
 import Note from "./Note";
@@ -14,6 +14,18 @@ export default class App extends Component {
     super(props);
     this.state = STORE;
   }
+
+handleDeleteNote = (id) => {
+  this.setState({notes: STORE.notes.filter(note => note.id !== id )});
+}
+
+handleAddNote(){
+
+}
+
+handleAddFolder(){
+
+}
 
   render() {
     console.log(this.state);
@@ -33,8 +45,8 @@ export default class App extends Component {
                 render={props => <MainSidebar folders={this.state.folders} />}
               />
               <Route
-                path="/Note"
-                render={props => <NoteSidebar folders={this.state.folders} notes={this.state.notes}/>}
+                path="/note/:noteID"
+                render={props => <NoteSidebar {...props} folders={this.state.folders} notes={this.state.notes}/>}
               />
             </Switch>
           </aside>
@@ -55,7 +67,7 @@ export default class App extends Component {
               />
               <Route
                 path="/note/:noteID"
-                render={props => <Note {...props} notes={this.state.notes} />}
+                render={props => <Note {...props} deleteNote={this.handleDeleteNote} notes={this.state.notes} />}
               />
               <Route component={NotFound} />
             </Switch>

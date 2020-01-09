@@ -1,21 +1,22 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-// have this render only the selected folder not the whole damn array 
+// have this render only the selected folder not the whole damn array
 function NoteSidebar(props) {
+  console.log("noteside:", props.folders);
+  const note = props.notes.find(note => note.id === props.match.params.noteID);
+
   return (
     <div className="mainSidebar">
-    {/* need to go back to previous folder */}
-      <NavLink to="/Folder">
-      <button className="addButton">Go Back</button>
-      </NavLink>
+      <button className="addButton" onClick={() => window.history.back()}>
+        Go Back
+      </button>
+
       <h2>
-      {/* this map is rendering all the notes  */}
-        {props.notes.map(note => (
-          <li key={note.id}>
-            <NavLink to={"/note/" + note.id}>
-            {note.name}
-            </NavLink>
+        {/* this map is rendering all the notes  */}
+        {props.folders.filter(folder => folder.id === note.folderId).map(folder => (
+          <li key={folder.id}>
+            <NavLink to={"/folder/" + folder.id}>{folder.name}</NavLink>
           </li>
         ))}
       </h2>
