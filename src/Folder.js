@@ -1,17 +1,22 @@
-import React from "react";
+import React, { Component } from "react";
 import NoteList from "./NoteList";
+import NoteFulContext from "./context/NoteFulContext";
 
-function Folder(props) {
-  const folder = props.folders.find(
-    folder => folder.id === props.match.params.folderID
-  );
-  console.log("From folder ",folder.id);
-  return (
-    <div>
-      {folder ? folder.name : ""}
-      <NoteList folderIdNotes={folder.id} notes={props.notes} />
-    </div>
-  );
+export default class Folder extends Component {
+  static contextType = NoteFulContext;
+
+  render() {
+    const { folders=[] } = this.context
+    const folder = folders.find(
+      folder => folder.id === this.props.match.params.folderID
+    );
+   
+    return (
+      <div>
+        {folder ? folder.name : ""}
+        <NoteList folderID={this.props.match.params.folderID} />
+          
+      </div>
+    );
+  }
 }
-
-export default Folder;

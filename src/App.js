@@ -1,79 +1,108 @@
 import React, { Component } from "react";
-import { Route,  Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Folder from "./Folder";
 import Menu from "./Menu";
 import Note from "./Note";
 import Nav from "./Nav";
 import NotFound from "./NotFound";
-import STORE from "./store";
 import MainSidebar from "./MainSidebar";
 import NoteSidebar from "./NoteSidebar";
+import NoteFulContext from "./context/NoteFulContext";
+import config from "./config";
 
 export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = STORE;
+  state = {
+    notes: [],
+    folders: []
+  };
+
+  componentDidMount() {
+    Promise.all([
+      fetch(`${config.API_ENDPOINT}/notes`),
+      fetch(`${config.API_ENDPOINT}/folders`)
+    ])
+      .then(([notesRes, foldersRes]) => {
+        if (!notesRes.ok) return notesRes.json().then(e => Promise.reject(e));
+        if (!foldersRes.ok)
+          return foldersRes.json().then(e => Promise.reject(e));
+
+        return Promise.all([notesRes.json(), foldersRes.json()]);
+      })
+      .then(([notes, folders]) => {
+        this.setState({ notes, folders });
+      })
+      .catch(error => {
+        console.log({ error });
+      });
   }
 
-handleDeleteNote = (id) => {
-  this.setState({notes: STORE.notes.filter(note => note.id !== id )});
-}
+  handleDeleteNote = id => {
+    this.setState({ notes: this.state.notes.filter(note => note.id !== id) });
+  };
 
-handleAddNote(){
+  // handleAddNote() {}
 
-}
-
-handleAddFolder(){
-
-}
+  // handleAddFolder() {}
 
   render() {
-    console.log(this.state);
+    const value = {
+      notes: this.state.notes,
+      folders: this.state.folders,
+      deleteNote: this.handleDeleteNote
+    };
+
+
     return (
-      <div className="App">
-        <Nav />
-        <div className="sideContent">
-          <aside>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <MainSidebar folders={this.state.folders} />}
-              />
-              <Route
-                path="/Folder"
-                render={props => <MainSidebar folders={this.state.folders} />}
-              />
-              <Route
-                path="/note/:noteID"
-                render={props => <NoteSidebar {...props} folders={this.state.folders} notes={this.state.notes}/>}
-              />
-            </Switch>
-          </aside>
-          <main>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <Menu notes={this.state.notes} />}
-              />
-              {/* /folder/folderID using links in sidebar */}
-              <Route
-                path="/folder/:folderID"
-                render={props => (
-                  <Folder {...props} folders={this.state.folders}
-                  notes={this.state.notes} />
-                )}
-              />
-              <Route
-                path="/note/:noteID"
-                render={props => <Note {...props} deleteNote={this.handleDeleteNote} notes={this.state.notes} />}
-              />
-              <Route component={NotFound} />
-            </Switch>
-          </main>
+      <NoteFulContext.Provider value={value}>
+        <div className="App">
+          <Nav />
+          <div className="sideContent">
+            <aside>
+              <Switch>
+                {["/", "/folder/:folderId"].map(path => (
+                  <Route exact key={path} path={path} component={MainSidebar} />
+                ))}
+                <Route path="/Folder" component={MainSidebar} />} />
+                <Route
+                  path="/note/:noteID"
+                  render={props => (
+                    <NoteSidebar
+                      {...props}
+                      folders={this.state.folders}
+                      notes={this.state.notes}
+                    />
+                  )}
+                />
+              </Switch>
+            </aside>
+            <main>
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => <Menu notes={this.state.notes} deleteNote={this.handleDeleteNote}/>}
+                />
+                {/* /folder/folderID using links in sidebar */}
+                <Route
+                  path="/folder/:folderID"
+                  render={props => <Folder {...props} deleteNote={this.handleDeleteNote}/>}
+                />
+                <Route
+                  path="/note/:noteID"
+                  render={props => (
+                    <Note
+                      {...props}
+                      deleteNote={this.handleDeleteNote}
+                      notes={this.state.notes}
+                    />
+                  )}
+                />
+                <Route component={NotFound} />
+              </Switch>
+            </main>
+          </div>
         </div>
-      </div>
+      </NoteFulContext.Provider>
     );
   }
 }

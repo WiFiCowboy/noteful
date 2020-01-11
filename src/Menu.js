@@ -12,7 +12,9 @@ function Menu(props) {
             <h2>{note.name}</h2>
           </NavLink>
           <h3>Date Modified on {note.modified}</h3>
-          <button className="deleteButton">Delete Note</button>
+          <button className="deleteButton" onClick={() => {
+        props.deleteNote(note.id);
+      } }>Delete Note</button>
         </div>
       ))}
       <button className="addButton">Add Note</button>
@@ -21,3 +23,8 @@ function Menu(props) {
 }
 
 export default Menu;
+
+{/* <button className="deleteButton" onClick={() => {
+        props.deleteNote(note.id);
+         props.history.push("/");
+      } }>Delete Note</button> */}
