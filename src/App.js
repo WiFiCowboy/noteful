@@ -9,6 +9,7 @@ import MainSidebar from "./MainSidebar";
 import NoteSidebar from "./NoteSidebar";
 import NoteFulContext from "./context/NoteFulContext";
 import config from "./config";
+import AddFolder from "./AddFolder";
 
 export default class App extends Component {
   state = {
@@ -36,21 +37,75 @@ export default class App extends Component {
       });
   }
 
+  // fetch notes request
   handleDeleteNote = id => {
     this.setState({ notes: this.state.notes.filter(note => note.id !== id) });
   };
 
+  // use fetch request to update these
   // handleAddNote() {}
 
-  // handleAddFolder() {}
+  addFolder = folder => {
+    this.setState({
+      folders: [ 
+        ...this.state.folders, 
+        folder]
+    });
+  };
+
+  handleAddFolder(e) {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const folder = {
+      folders: name
+    };
+    console.log(name);
+    fetch(`${config.API_ENDPOINT}/folders`, {
+      method: "POST",
+      headers: {
+        authorization: `bearer ${config.API_ENDPOINT}`
+      }
+    })
+      .then(res => {
+        if (!res.ok) {
+          return res.json().then(error => {
+            throw error;
+          });
+        }
+        return res.json();
+      })
+      .then(folder => {
+        console.log('HAF', this.context);
+        this.context.addFolder(folder)
+        this.props.history.push(`/folder/${folder}`)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+      // .then(data => {
+      //   title.value = "";
+      //   url.value = "";
+      //   description.value = "";
+      //   rating.value = "";
+      //   this.context.addBookmark(data);
+      //   this.props.history.push("/");
+    // this.setState({ folders: this.state.folders})
+    // fetch()
+    // .then(() => this.componentDidMount())
+    // // fetch to post
+    // fetch()
+    // // .then(post new folder )
+  }
 
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
-      deleteNote: this.handleDeleteNote
+      deleteNote: this.handleDeleteNote,
+      handleAddFolder: this.handleAddFolder,
+      addFolder: this.addFolder
     };
-
 
     return (
       <NoteFulContext.Provider value={value}>
@@ -80,12 +135,19 @@ export default class App extends Component {
                 <Route
                   exact
                   path="/"
-                  render={props => <Menu notes={this.state.notes} deleteNote={this.handleDeleteNote}/>}
+                  render={props => (
+                    <Menu
+                      notes={this.state.notes}
+                      deleteNote={this.handleDeleteNote}
+                    />
+                  )}
                 />
                 {/* /folder/folderID using links in sidebar */}
                 <Route
                   path="/folder/:folderID"
-                  render={props => <Folder {...props} deleteNote={this.handleDeleteNote}/>}
+                  render={props => (
+                    <Folder {...props} deleteNote={this.handleDeleteNote} />
+                  )}
                 />
                 <Route
                   path="/note/:noteID"
@@ -97,6 +159,7 @@ export default class App extends Component {
                     />
                   )}
                 />
+                <Route path="/addFolder" component={AddFolder} />
                 <Route component={NotFound} />
               </Switch>
             </main>

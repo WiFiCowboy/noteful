@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import "./index.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory, Link } from "react-router-dom";
 import NoteFulContext from "./context/NoteFulContext";
+import AddFolder from "./AddFolder";
 
 export default class MainSidebar extends Component {
   static contextType = NoteFulContext;
+
+  // routeChange = () => {
+  //   let path = 'AddFolder';
+  //   let history = useHistory();
+  //   history.push(path)
+  // }
+
   render() {
     const { folders = [] } = this.context;
     return (
@@ -19,7 +27,7 @@ export default class MainSidebar extends Component {
           ))}
         </h2>
 
-        <button className="addButton">Add folder</button>
+        <Link to="/addFolder">Add Folder</Link>
       </div>
     );
   }
