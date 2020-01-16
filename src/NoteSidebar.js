@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 // have this render only the selected folder not the whole damn array
 function NoteSidebar(props) {
   console.log("noteside:", props.folders);
-  const note = props.notes.find(note => note.id === props.match.params.noteID);
+  const note = props.notes.find(note => note.id === props.match.params.noteID) || {};
 
   return (
     <div className="mainSidebar">

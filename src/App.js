@@ -10,6 +10,7 @@ import NoteSidebar from "./NoteSidebar";
 import NoteFulContext from "./context/NoteFulContext";
 import config from "./config";
 import AddFolder from "./AddFolder";
+import AddNote from './AddNote';
 
 export default class App extends Component {
   state = {
@@ -42,60 +43,18 @@ export default class App extends Component {
     this.setState({ notes: this.state.notes.filter(note => note.id !== id) });
   };
 
-  // use fetch request to update these
-  // handleAddNote() {}
+ 
 
   addFolder = folder => {
     this.setState({
-      folders: [ 
-        ...this.state.folders, 
-        folder]
+      folders: [...this.state.folders, folder]
     });
   };
 
-  handleAddFolder(e) {
-    e.preventDefault();
-    const name = e.target.name.value;
-    const folder = {
-      folders: name
-    };
-    console.log(name);
-    fetch(`${config.API_ENDPOINT}/folders`, {
-      method: "POST",
-      headers: {
-        authorization: `bearer ${config.API_ENDPOINT}`
-      }
+  addNote = note => {
+    this.setState({
+      notes: [...this.state.notes, note]
     })
-      .then(res => {
-        if (!res.ok) {
-          return res.json().then(error => {
-            throw error;
-          });
-        }
-        return res.json();
-      })
-      .then(folder => {
-        console.log('HAF', this.context);
-        this.context.addFolder(folder)
-        this.props.history.push(`/folder/${folder}`)
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-      // .then(data => {
-      //   title.value = "";
-      //   url.value = "";
-      //   description.value = "";
-      //   rating.value = "";
-      //   this.context.addBookmark(data);
-      //   this.props.history.push("/");
-    // this.setState({ folders: this.state.folders})
-    // fetch()
-    // .then(() => this.componentDidMount())
-    // // fetch to post
-    // fetch()
-    // // .then(post new folder )
   }
 
   render() {
@@ -104,7 +63,9 @@ export default class App extends Component {
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
       handleAddFolder: this.handleAddFolder,
-      addFolder: this.addFolder
+      addFolder: this.addFolder,
+      addNote: this.addNote
+
     };
 
     return (
@@ -139,6 +100,7 @@ export default class App extends Component {
                     <Menu
                       notes={this.state.notes}
                       deleteNote={this.handleDeleteNote}
+                      history={props.history}
                     />
                   )}
                 />
@@ -159,7 +121,18 @@ export default class App extends Component {
                     />
                   )}
                 />
-                <Route path="/addFolder" component={AddFolder} />
+                <Route
+                  path="/addFolder"
+                  render={props => (
+                    <AddFolder {...props} />
+                  )}
+                />
+                <Route
+                  path="/addNote"
+                  render={props => (
+                    <AddNote {...props} />
+                  )}
+                />
                 <Route component={NotFound} />
               </Switch>
             </main>
