@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NoteFulContext from "./context/NoteFulContext";
 import config from './config';
+import PropTypes from 'prop-types';
 
 export default class AddFolder extends Component {
   static contextType = NoteFulContext;
@@ -50,3 +51,7 @@ export default class AddFolder extends Component {
     );
   }
 }
+
+AddFolder.propTypes = {
+  history: PropTypes.object
+};

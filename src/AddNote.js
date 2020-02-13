@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NoteFulContext from './context/NoteFulContext';
 import config from './config';
+import PropTypes from 'prop-types';
 
 export default class AddNote extends Component {
 	static contextType = NoteFulContext;
@@ -44,7 +45,7 @@ export default class AddNote extends Component {
 			<div>
 				<form onSubmit={(e) => this.handleAddNote(e)}>
 					<label>Enter Note Name</label>
-					<input name="name" type="Text" placeholder="note name" />
+					<input required name="name" type="Text" placeholder="note name" />
 					<textarea placeholder="enter note" name="content" />
 					<button type={'submit'}>Submit</button>
 				</form>
@@ -52,3 +53,7 @@ export default class AddNote extends Component {
 		);
 	}
 }
+
+AddNote.propTypes = {
+	history: PropTypes.object
+};
