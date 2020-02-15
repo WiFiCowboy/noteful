@@ -12,7 +12,6 @@ export default class AddFolder extends Component {
     const folder = {
       name: name
     };
-    console.log(name);
     fetch(`${config.API_ENDPOINT}/folders`, {
       method: "POST",
       body: JSON.stringify(folder),
@@ -30,7 +29,6 @@ export default class AddFolder extends Component {
         return res.json();
       })
       .then(folder => {
-        console.log("HAF", this.context);
         this.context.addFolder(folder);
         this.props.history.push(`/folder/${folder}`);
       })

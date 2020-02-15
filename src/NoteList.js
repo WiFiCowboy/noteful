@@ -7,7 +7,7 @@ export default class NoteList extends Component {
 	static contextType = NoteFulContext;
 	render() {
 		// const folderInfo = folderIdNotes;
-		const { folders = [], notes = [], deleteNote } = this.context;
+		const {  notes = [], deleteNote } = this.context;
 
 		const notesReturn = notes.map((note) => {
 			if (note.folderId === this.props.folderID) {

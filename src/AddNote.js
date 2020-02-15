@@ -13,7 +13,6 @@ export default class AddNote extends Component {
 			name: name,
 			content: e.target.content.value
 		};
-		console.log(name);
 		fetch(`${config.API_ENDPOINT}/notes`, {
 			method: 'POST',
 			body: JSON.stringify(note),
@@ -31,7 +30,6 @@ export default class AddNote extends Component {
 				return res.json();
 			})
 			.then((note) => {
-				console.log('HAF', this.context);
 				this.context.addNote(note);
 				this.props.history.push(`/note/${note.id}`);
 			})

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 // have this render only the selected folder not the whole damn array
 function NoteSidebar(props) {
-	console.log('noteside:', props.folders);
 	const note = props.notes.find((note) => note.id === props.match.params.noteID) || {};
 
 	return (
