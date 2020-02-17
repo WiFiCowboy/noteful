@@ -11,7 +11,8 @@ export default class AddNote extends Component {
 		const name = e.target.name.value;
 		const note = {
 			name: name,
-			content: e.target.content.value
+			content: e.target.content.value,
+			folderId: e.target.folder.value
 		};
 		fetch(`${config.API_ENDPOINT}/notes`, {
 			method: 'POST',
@@ -44,10 +45,13 @@ export default class AddNote extends Component {
 				<form onSubmit={(e) => this.handleAddNote(e)}>
 					<label>Enter Note Name</label>
 					<input required name="name" type="Text" placeholder="note name" />
-					<textarea placeholder="enter note" name="content" />
+					<textarea required placeholder="enter note" name="content" />
+					<select name="folder">
+						{this.context.folders.map(folder => <option value={folder.id}>{folder.name}</option>)}
+					</select>
 					<button type={'submit'}>Submit</button>
 				</form>
-			</div>
+			</div >
 		);
 	}
 }
