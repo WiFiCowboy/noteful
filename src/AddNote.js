@@ -14,11 +14,12 @@ export default class AddNote extends Component {
 			content: e.target.content.value,
 			folderId: e.target.folder.value
 		};
-		fetch(`${config.API_ENDPOINT}/notes`, {
+		fetch(`${config.API_NOTES}`, {
+			// fetch(`${config.API_ENDPOINT}/notes`, {
 			method: 'POST',
 			body: JSON.stringify(note),
 			headers: {
-				authorization: `bearer ${config.API_ENDPOINT}`,
+				// authorization: `bearer ${config.API_ENDPOINT}`,
 				'content-type': 'application/json'
 			}
 		})
