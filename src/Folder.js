@@ -8,12 +8,12 @@ export default class Folder extends Component {
 
 	render() {
 		const { folders = [] } = this.context;
-		const folder = folders.find((folder) => folder.id === this.props.match.params.folderID);
+		const folder = folders.find((folder) => folder.id === this.props.match.params.folder_id);
 
 		return (
 			<div>
 				{folder ? folder.name : ''}
-				<NoteList folderID={this.props.match.params.folderID} />
+				<NoteList folderID={this.props.match.params.folder_id} />
 			</div>
 		);
 	}

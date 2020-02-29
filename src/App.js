@@ -19,14 +19,17 @@ export default class App extends Component {
 	};
 
 	componentDidMount() {
-		Promise.all([ fetch(`${config.API_ENDPOINT}/notes`), fetch(`${config.API_ENDPOINT}/folders`) ])
-			.then(([ notesRes, foldersRes ]) => {
+		// OG 
+		// Promise.all([ fetch(`${config.API_ENDPOINT}/notes`), fetch(`${config.API_ENDPOINT}/folders`) ])
+		// TEST
+		Promise.all([fetch(`${config.API_NOTES}`), fetch(`${config.API_FOLDERS}`)])
+			.then(([notesRes, foldersRes]) => {
 				if (!notesRes.ok) return notesRes.json().then((e) => Promise.reject(e));
 				if (!foldersRes.ok) return foldersRes.json().then((e) => Promise.reject(e));
 
-				return Promise.all([ notesRes.json(), foldersRes.json() ]);
+				return Promise.all([notesRes.json(), foldersRes.json()]);
 			})
-			.then(([ notes, folders ]) => {
+			.then(([notes, folders]) => {
 				this.setState({ notes, folders });
 			})
 			.catch((error) => {
@@ -41,13 +44,13 @@ export default class App extends Component {
 
 	addFolder = (folder) => {
 		this.setState({
-			folders: [ ...this.state.folders, folder ]
+			folders: [...this.state.folders, folder]
 		});
 	};
 
 	addNote = (note) => {
 		this.setState({
-			notes: [ ...this.state.notes, note ]
+			notes: [...this.state.notes, note]
 		});
 	};
 
@@ -68,7 +71,7 @@ export default class App extends Component {
 					<div className="sideContent">
 						<aside>
 							<Switch>
-								{[ '/', '/folder/:folderId' ].map((path) => (
+								{['/', '/folder/:folder_id'].map((path) => (
 									<Route exact key={path} path={path} component={MainSidebar} />
 								))}
 								<Route path="/Folder" component={MainSidebar} />} />
@@ -95,7 +98,7 @@ export default class App extends Component {
 								/>
 								{/* /folder/folderID using links in sidebar */}
 								<Route
-									path="/folder/:folderID"
+									path="/folder/:folder_id"
 									render={(props) => <Folder {...props} deleteNote={this.handleDeleteNote} />}
 								/>
 								<Route

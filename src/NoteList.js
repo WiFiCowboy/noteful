@@ -7,10 +7,10 @@ export default class NoteList extends Component {
 	static contextType = NoteFulContext;
 	render() {
 		// const folderInfo = folderIdNotes;
-		const {  notes = [], deleteNote } = this.context;
+		const { notes = [], deleteNote } = this.context;
 
 		const notesReturn = notes.map((note) => {
-			if (note.folderId === this.props.folderID) {
+			if (note.folder_id === this.props.folderID) {
 				return (
 					<div className="mainMenuContainer" key={note.id}>
 						<div className="menu">
@@ -43,5 +43,5 @@ export default class NoteList extends Component {
 }
 
 NoteList.propTypes = {
-	folderID: PropTypes.string
+	folder_id: PropTypes.string
 };

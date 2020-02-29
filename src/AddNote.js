@@ -12,7 +12,7 @@ export default class AddNote extends Component {
 		const note = {
 			name: name,
 			content: e.target.content.value,
-			folderId: e.target.folder.value
+			folder_id: e.target.folder.value
 		};
 		fetch(`${config.API_NOTES}`, {
 			// fetch(`${config.API_ENDPOINT}/notes`, {
@@ -32,6 +32,8 @@ export default class AddNote extends Component {
 				return res.json();
 			})
 			.then((note) => {
+				console.log(this.context.addNote(note));
+
 				this.context.addNote(note);
 				this.props.history.push(`/note/${note.id}`);
 			})

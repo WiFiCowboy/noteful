@@ -14,7 +14,7 @@ function NoteSidebar(props) {
 
 			<h2>
 				{/* this map is rendering all the notes  */}
-				{props.folders.filter((folder) => folder.id === note.folderId).map((folder) => (
+				{props.folders.filter((folder) => folder.id === note.folder_id).map((folder) => (
 					<li key={folder.id}>
 						<NavLink to={'/folder/' + folder.id}>{folder.name}</NavLink>
 					</li>
