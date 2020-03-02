@@ -1,4 +1,4 @@
-### By Humberto Hernandez
+### By Humberto Hernandez and Tony Milone
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
