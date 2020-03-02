@@ -39,8 +39,26 @@ export default class App extends Component {
 
 	// fetch notes request
 	handleDeleteNote = (id) => {
-		this.setState({ notes: this.state.notes.filter((note) => note.id !== id) });
-	};
+		return fetch(config.API_NOTES + `${id}`, {
+			method: 'DELETE',
+			headers: {
+				'content-type': 'application/json',
+			}
+		})
+			.then(res => {
+				if (!res.ok)
+					return res.json().then(error => Promise.reject(error))
+			})
+			.then(noContent => {
+				this.setState({ notes: this.state.notes.filter((note) => note.id !== id) });
+			})
+			.catch(error => {
+				console.error(error)
+			})
+	}
+
+
+
 
 	addFolder = (folder) => {
 		this.setState({
@@ -98,7 +116,7 @@ export default class App extends Component {
 								/>
 								{/* /folder/folderID using links in sidebar */}
 								<Route
-									path="/folder/:folder_id"
+									path="/folder/:folderID"
 									render={(props) => <Folder {...props} deleteNote={this.handleDeleteNote} />}
 								/>
 								<Route

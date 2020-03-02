@@ -5,23 +5,26 @@ import PropTypes from 'prop-types';
 
 export default class NoteList extends Component {
 	static contextType = NoteFulContext;
+
+
 	render() {
 		// const folderInfo = folderIdNotes;
 		const { notes = [], deleteNote } = this.context;
+		console.log(this.props.folderID, notes);
 
 		const notesReturn = notes.map((note) => {
-			if (note.folder_id === this.props.folderID) {
+			if (note.folder_id === parseInt(this.props.folderID)) {
 				return (
 					<div className="mainMenuContainer" key={note.id}>
 						<div className="menu">
 							<NavLink to={'/Note/' + note.id}>
 								<h2>{note.name}</h2>
 							</NavLink>
-							<h3>Date Modified on {note.modified}</h3>
+							<h3>Date Modified on {note.date_modified}</h3>
 							<button
 								className="deleteButton"
 								onClick={() => {
-									deleteNote(note.id);
+									this.context.deleteNote(note.id);
 								}}
 							>
 								Delete Note
@@ -43,5 +46,5 @@ export default class NoteList extends Component {
 }
 
 NoteList.propTypes = {
-	folder_id: PropTypes.string
+	folderID: PropTypes.string
 };

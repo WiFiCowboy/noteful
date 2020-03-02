@@ -32,8 +32,6 @@ export default class AddNote extends Component {
 				return res.json();
 			})
 			.then((note) => {
-				console.log(this.context.addNote(note));
-
 				this.context.addNote(note);
 				this.props.history.push(`/note/${note.id}`);
 			})

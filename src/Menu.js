@@ -15,11 +15,11 @@ class Menu extends Component {
 						<NavLink to={'/note/' + note.id}>
 							<h2>{note.name}</h2>
 						</NavLink>
-						<h3>Date Modified on {note.modified}</h3>
+						<h3>Date Modified on {note.date_modified}</h3>
 						<button
 							className="deleteButton"
 							onClick={() => {
-								this.props.deleteNote(note.id);
+								this.context.deleteNote(note.id);
 							}}
 						>
 							Delete Note
