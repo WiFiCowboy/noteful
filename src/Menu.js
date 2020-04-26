@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './index.css';
 import { NavLink, Link } from 'react-router-dom';
 import NoteFulContext from './context/NoteFulContext';
+// import history from './history'
 import PropTypes from 'prop-types';
 
 class Menu extends Component {
@@ -26,9 +27,13 @@ class Menu extends Component {
 						</button>
 					</div>
 				))}
+				{/* <form> */}
+
+				{/* <button onClick={() => history.push('/addNote')}>add note</button> */}
 				<Link className="addButton" to="/addNote">
-					Add Note 1
+					Add Note
 				</Link>
+				{/* </form> */}
 			</div>
 		);
 	}

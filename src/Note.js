@@ -33,7 +33,7 @@ Note.propTypes = {
 	notes: PropTypes.array,
 	match: PropTypes.object,
 	deleteNote: PropTypes.func,
-	history: PropTypes.array
+	history: PropTypes.any
 };
 
 export default Note;

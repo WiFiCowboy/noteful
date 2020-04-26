@@ -48,7 +48,7 @@ export default class AddNote extends Component {
 					<input required name="name" type="Text" placeholder="note name" />
 					<textarea required placeholder="enter note" name="content" />
 					<select name="folder">
-						{this.context.folders.map(folder => <option value={folder.id}>{folder.name}</option>)}
+						{this.context.folders.map(folder => <option key={folder.id} value={folder.id}>{folder.name}</option>)}
 					</select>
 					<button type={'submit'}>Submit</button>
 				</form>
